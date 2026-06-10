@@ -1,0 +1,15 @@
+.gradle/
+build/
+local.properties
+*.jks
+*.keystore
+keystore.properties
+.DS_Store
+tmp/
+/captures
+.idea/
+*.iml
+.kotlin/
+scraper/data/
+scraper/dist/
+scraper/*.log
