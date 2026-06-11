@@ -62,18 +62,23 @@ private val LightColors: ColorScheme = lightColorScheme(
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 스크린샷 자동화용: adb로는 한글 입력이 안 돼 인텐트 extra로 검색어 주입
+        val prefillQuery = intent.getStringExtra("prefill_query")
         setContent {
             MaterialTheme(colorScheme = LightColors) {
-                App()
+                App(prefillQuery)
             }
         }
     }
 }
 
 @Composable
-fun App(vm: SearchViewModel = viewModel()) {
+fun App(prefillQuery: String? = null, vm: SearchViewModel = viewModel()) {
     val state by vm.state.collectAsState()
     var tab by remember { mutableIntStateOf(0) }
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        prefillQuery?.let(vm::onQueryChange)
+    }
 
     Scaffold(
         bottomBar = {
