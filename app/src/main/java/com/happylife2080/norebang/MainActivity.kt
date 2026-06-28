@@ -42,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -85,13 +86,13 @@ fun App(prefillQuery: String? = null, vm: SearchViewModel = viewModel()) {
             NavigationBar {
                 NavigationBarItem(
                     selected = tab == 0, onClick = { tab = 0 },
-                    icon = { Icon(Icons.Filled.Search, contentDescription = "검색") },
-                    label = { Text("검색") },
+                    icon = { Icon(Icons.Filled.Search, contentDescription = stringResource(R.string.cd_search)) },
+                    label = { Text(stringResource(R.string.tab_search)) },
                 )
                 NavigationBarItem(
                     selected = tab == 1, onClick = { tab = 1 },
-                    icon = { Icon(Icons.Filled.Favorite, contentDescription = "즐겨찾기") },
-                    label = { Text("즐겨찾기") },
+                    icon = { Icon(Icons.Filled.Favorite, contentDescription = stringResource(R.string.cd_favorite)) },
+                    label = { Text(stringResource(R.string.tab_favorites)) },
                 )
             }
         }
@@ -110,7 +111,7 @@ fun SearchScreen(state: UiState, vm: SearchViewModel) {
             value = state.query,
             onValueChange = vm::onQueryChange,
             modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
-            placeholder = { Text("곡명 또는 가수명 검색") },
+            placeholder = { Text(stringResource(R.string.search_placeholder)) },
             leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
             singleLine = true,
             shape = RoundedCornerShape(14.dp),
@@ -119,9 +120,9 @@ fun SearchScreen(state: UiState, vm: SearchViewModel) {
             Modifier.padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            FilterChip(selected = state.brandFilter == null, onClick = { vm.onBrandFilter(null) }, label = { Text("전체") })
+            FilterChip(selected = state.brandFilter == null, onClick = { vm.onBrandFilter(null) }, label = { Text(stringResource(R.string.filter_all)) })
             FilterChip(selected = state.brandFilter == "TJ", onClick = { vm.onBrandFilter("TJ") }, label = { Text("TJ") })
-            FilterChip(selected = state.brandFilter == "KY", onClick = { vm.onBrandFilter("KY") }, label = { Text("금영") })
+            FilterChip(selected = state.brandFilter == "KY", onClick = { vm.onBrandFilter("KY") }, label = { Text(stringResource(R.string.brand_ky)) })
         }
         if (state.query.isBlank()) {
             Column(
@@ -131,10 +132,10 @@ fun SearchScreen(state: UiState, vm: SearchViewModel) {
             ) {
                 Text("🎤", fontSize = 44.sp)
                 Spacer(Modifier.padding(4.dp))
-                Text("부르고 싶은 곡을 검색하세요", color = Color.Gray)
+                Text(stringResource(R.string.search_empty), color = Color.Gray)
                 Spacer(Modifier.padding(2.dp))
                 Text(
-                    "곡 DB ${state.dbVersion} · ${"%,d".format(state.songCount)}곡",
+                    stringResource(R.string.db_info, state.dbVersion, "%,d".format(state.songCount)),
                     color = Color.LightGray, fontSize = 12.sp,
                 )
             }
@@ -158,7 +159,7 @@ fun FavoritesScreen(state: UiState, vm: SearchViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text("♡", fontSize = 44.sp, color = Color.LightGray)
-            Text("검색 결과에서 하트를 눌러\n자주 부르는 곡을 저장하세요", color = Color.Gray)
+            Text(stringResource(R.string.favorites_empty), color = Color.Gray)
         }
     } else {
         LazyColumn(Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
@@ -182,8 +183,9 @@ fun SongRow(song: Song, isFavorite: Boolean, onToggle: (Song) -> Unit) {
                 .background(badgeColor.copy(alpha = 0.12f), RoundedCornerShape(8.dp))
                 .padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
+            val brandLabel = if (song.brand == "TJ") "TJ" else stringResource(R.string.brand_ky)
             Text(
-                "${if (song.brand == "TJ") "TJ" else "금영"} ${song.number}",
+                "$brandLabel ${song.number}",
                 color = badgeColor, fontWeight = FontWeight.Bold, fontSize = 13.sp,
             )
         }
@@ -195,7 +197,7 @@ fun SongRow(song: Song, isFavorite: Boolean, onToggle: (Song) -> Unit) {
         IconButton(onClick = { onToggle(song) }) {
             Icon(
                 if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                contentDescription = "즐겨찾기",
+                contentDescription = stringResource(R.string.cd_favorite),
                 tint = if (isFavorite) Color(0xFFE5484D) else Color.LightGray,
             )
         }
