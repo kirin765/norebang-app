@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">カラオケ番号検索</string>
+    <string name="tab_search">検索</string>
+    <string name="tab_favorites">お気に入り</string>
+    <string name="cd_search">検索</string>
+    <string name="cd_favorite">お気に入り</string>
+    <string name="search_placeholder">曲名またはアーティスト名で検索</string>
+    <string name="filter_all">すべて</string>
+    <string name="brand_ky">KY</string>
+    <string name="search_empty">歌いたい曲を検索してください</string>
+    <string name="db_info">曲DB %1$s · %2$s曲</string>
+    <string name="favorites_empty">検索結果のハートをタップして\nよく歌う曲を保存しましょう</string>
+</resources>
