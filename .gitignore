@@ -13,3 +13,9 @@ tmp/
 scraper/data/
 scraper/dist/
 scraper/*.log
+
+# Apps in Toss (.ait 번들)
+*.ait
+node_modules/
+dist/
+public/songs.json

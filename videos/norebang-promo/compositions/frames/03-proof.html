@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- head is metadata for the source file only; the runtime ignores it -->
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face {
+          font-family: "Pretendard";
+          font-weight: 500;
+          font-style: normal;
+          font-display: block;
+          src: url("assets/fonts/Pretendard-Medium.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Pretendard";
+          font-weight: 700;
+          font-style: normal;
+          font-display: block;
+          src: url("assets/fonts/Pretendard-Bold.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Pretendard";
+          font-weight: 800;
+          font-style: normal;
+          font-display: block;
+          src: url("assets/fonts/Pretendard-ExtraBold.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Pretendard";
+          font-weight: 900;
+          font-style: normal;
+          font-display: block;
+          src: url("assets/fonts/Pretendard-Black.woff2") format("woff2");
+        }
+
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Pretendard", sans-serif;
+          overflow: hidden;
+        }
+
+        /* Full-bleed ground (clip, track 0) */
+        [id="03-proof-ground"] {
+          position: absolute;
+          inset: 0;
+          background: #fcfbff;
+        }
+        [class~="03-proof-dots"] {
+          position: absolute;
+          width: 480px;
+          height: 480px;
+          background-image: radial-gradient(
+            circle,
+            rgba(26, 21, 38, 0.06) 1.5px,
+            transparent 1.8px
+          );
+          background-size: 26px 26px;
+        }
+        [class~="03-proof-dots-tl"] {
+          top: 0;
+          left: 0;
+        }
+        [class~="03-proof-dots-br"] {
+          bottom: 0;
+          right: 0;
+        }
+
+        /* Content layer (clip, track 1) */
+        [id="03-proof-content"] {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 440px;
+          box-sizing: border-box;
+        }
+
+        [id="03-proof-stack"] {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          transform-origin: center center;
+        }
+
+        /* Top label-pill "인터넷 없어도" */
+        [id="03-proof-toppill-wrap"] {
+          margin-bottom: 60px;
+        }
+        [id="03-proof-toppill"] {
+          display: inline-flex;
+          align-items: center;
+          background: #ffffff;
+          color: #1a1526;
+          font-weight: 800;
+          font-size: 40px;
+          letter-spacing: -0.01em;
+          padding: 16px 40px;
+          border: 4px solid #1a1526;
+          border-radius: 9999px;
+          box-shadow: 8px 8px 0 #1a1526;
+          transform: rotate(-2deg);
+        }
+
+        /* Hero number */
+        [id="03-proof-num-wrap"] {
+          display: flex;
+          align-items: baseline;
+          justify-content: center;
+          width: 1000px;
+        }
+        [id="03-proof-counter"] {
+          display: inline-block;
+          font-weight: 900;
+          font-size: 240px;
+          line-height: 1;
+          color: #1a1526;
+          letter-spacing: -0.06em;
+          font-variant-numeric: tabular-nums;
+          font-feature-settings: "tnum";
+          transform-origin: center center;
+        }
+        [id="03-proof-suffix"] {
+          display: inline-block;
+          margin-left: 18px;
+          font-weight: 800;
+          font-size: 68px;
+          line-height: 1;
+          color: #5b2eff;
+          letter-spacing: -0.02em;
+        }
+
+        [id="03-proof-label"] {
+          margin-top: 22px;
+          font-weight: 700;
+          font-size: 42px;
+          letter-spacing: 0.01em;
+          color: #8a83a0;
+        }
+
+        /* Feature chips row */
+        [id="03-proof-chips"] {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 22px;
+          margin-top: 78px;
+        }
+        [class~="03-proof-chip-wrap"] {
+          display: inline-block;
+          transform-origin: center center;
+        }
+        [class~="03-proof-chip"] {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          font-weight: 700;
+          font-size: 32px;
+          letter-spacing: -0.01em;
+          color: #1a1526;
+          padding: 16px 30px;
+          border: 4px solid #1a1526;
+          border-radius: 9999px;
+          box-shadow: 8px 8px 0 #1a1526;
+          white-space: nowrap;
+        }
+        [class~="03-proof-chip-1"] {
+          background: #cdbfff;
+          transform: rotate(-2deg);
+        }
+        [class~="03-proof-chip-2"] {
+          background: #c9e4ff;
+          transform: rotate(2deg);
+        }
+        [class~="03-proof-chip-3"] {
+          background: #ffd3da;
+          transform: rotate(-2deg);
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="03-proof"
+        data-start="0"
+        data-width="1080"
+        data-height="1920"
+        data-duration="3.1"
+      >
+        <!-- Ground: full-bleed canvas + faint dot-grid corners -->
+        <div
+          id="03-proof-ground"
+          class="clip"
+          data-start="0"
+          data-duration="3.1"
+          data-track-index="0"
+        >
+          <div class="03-proof-dots 03-proof-dots-tl"></div>
+          <div class="03-proof-dots 03-proof-dots-br"></div>
+        </div>
+
+        <!-- Content -->
+        <div
+          id="03-proof-content"
+          class="clip"
+          data-start="0"
+          data-duration="3.1"
+          data-track-index="1"
+        >
+          <div id="03-proof-stack">
+            <div id="03-proof-toppill-wrap">
+              <span id="03-proof-toppill">인터넷 없어도</span>
+            </div>
+
+            <div id="03-proof-num-wrap">
+              <span id="03-proof-counter">0</span
+              ><span id="03-proof-suffix">곡</span>
+            </div>
+
+            <div id="03-proof-label">TJ · 금영 전곡</div>
+
+            <div id="03-proof-chips">
+              <span class="03-proof-chip-wrap"
+                ><span class="03-proof-chip 03-proof-chip-1">📴 오프라인 검색</span></span
+              >
+              <span class="03-proof-chip-wrap"
+                ><span class="03-proof-chip 03-proof-chip-2">⚡ 3초 결과</span></span
+              >
+              <span class="03-proof-chip-wrap"
+                ><span class="03-proof-chip 03-proof-chip-3">❤️ 즐겨찾기</span></span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        const counter = document.getElementById("03-proof-counter");
+        const suffix = document.getElementById("03-proof-suffix");
+        const label = document.getElementById("03-proof-label");
+        const toppill = document.getElementById("03-proof-toppill-wrap");
+        const stack = document.getElementById("03-proof-stack");
+        const chips = Array.prototype.slice.call(
+          document.querySelectorAll('[class~="03-proof-chip-wrap"]'),
+        );
+
+        // Scene 1 — count-up 0 → 130,000, growing in scale (counting-dynamic-scale)
+        const COUNT_START = 0.08;
+        const COUNT_DUR = 0.9;
+        const START_SCALE = 0.55; // ~55% of final size
+        const state = { value: 0 };
+
+        tl.to(
+          state,
+          {
+            value: 130000,
+            duration: COUNT_DUR,
+            ease: "power3.out",
+            onUpdate: () => {
+              counter.textContent = Math.round(state.value).toLocaleString();
+            },
+          },
+          COUNT_START,
+        );
+        tl.fromTo(
+          counter,
+          { scale: START_SCALE },
+          { scale: 1, duration: COUNT_DUR, ease: "power3.out" },
+          COUNT_START,
+        );
+
+        // Label arrives before the count peaks
+        tl.fromTo(
+          label,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.35,
+        );
+
+        // "곡" suffix slides in after the count lands
+        tl.fromTo(
+          suffix,
+          { opacity: 0, y: 22 },
+          { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" },
+          COUNT_START + COUNT_DUR,
+        );
+
+        // Scene 2 — three chips slam in left→right on a steady beat (kinetic-beat-slam)
+        const CHIP_BEATS = [1.0, 1.28, 1.56];
+        chips.forEach((el, i) => {
+          tl.fromTo(
+            el,
+            { x: -70, scale: 0.82, opacity: 0 },
+            { x: 0, scale: 1, opacity: 1, duration: 0.42, ease: "power4.out" },
+            CHIP_BEATS[i],
+          );
+        });
+
+        // Scene 3 — top label-pill pops in above the number
+        tl.fromTo(
+          toppill,
+          { opacity: 0, y: -26, scale: 0.8 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" },
+          1.9,
+        );
+
+        // Gentle single idle breathe on the stack, settling to hold (no exit)
+        tl.to(stack, { scale: 1.012, duration: 0.3, ease: "sine.inOut" }, 2.0);
+        tl.to(stack, { scale: 1, duration: 0.3, ease: "sine.inOut" }, 2.3);
+
+        window.__timelines["03-proof"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

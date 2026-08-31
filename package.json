@@ -1,0 +1,24 @@
+{
+  "name": "norebang-number",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "노래방 번호검색 — TJ/금영 노래방 곡 번호 검색 미니앱 (Apps in Toss)",
+  "scripts": {
+    "dev": "vite",
+    "db:build": "node scripts/build-songs-json.mjs",
+    "build": "npm run db:build && vite build",
+    "preview": "vite preview",
+    "ait:build": "ait build",
+    "build:ait": "npm run build && ait build",
+    "capture:assets": "node tmp/capture-ait-assets.mjs",
+    "smoke": "node tmp/smoke-ait.mjs"
+  },
+  "devDependencies": {
+    "@apps-in-toss/cli": "^3.0.5",
+    "@apps-in-toss/web-framework": "^3.0.5",
+    "playwright": "^1.58.2",
+    "vite": "^7.3.1",
+    "vite-plugin-pwa": "^1.3.0"
+  }
+}

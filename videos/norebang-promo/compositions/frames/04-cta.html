@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- head is metadata for the source file only; the runtime clones <template> contents. -->
+  </head>
+  <body>
+    <template>
+      <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+      <style>
+        @font-face {
+          font-family: "Pretendard";
+          font-weight: 500;
+          font-style: normal;
+          font-display: block;
+          src: url("assets/fonts/Pretendard-Medium.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Pretendard";
+          font-weight: 700;
+          font-style: normal;
+          font-display: block;
+          src: url("assets/fonts/Pretendard-Bold.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Pretendard";
+          font-weight: 800;
+          font-style: normal;
+          font-display: block;
+          src: url("assets/fonts/Pretendard-ExtraBold.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Pretendard";
+          font-weight: 900;
+          font-style: normal;
+          font-display: block;
+          src: url("assets/fonts/Pretendard-Black.woff2") format("woff2");
+        }
+
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Pretendard", sans-serif;
+        }
+
+        /* Dark closer ground — rides on the class="clip" layer, never on #root.
+           Leading-digit class/id names are escaped for valid CSS (\30 = "0"). */
+        .\30 4-cta-ground {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #1a1526;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 400px;
+          box-sizing: border-box;
+        }
+
+        .\30 4-cta-dots {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background-image: radial-gradient(rgba(252, 251, 255, 0.05) 1.5px, transparent 1.6px);
+          background-size: 42px 42px;
+        }
+
+        .\30 4-cta-icon {
+          position: relative;
+          z-index: 1;
+          width: 260px;
+          height: 260px;
+          border-radius: 46px;
+          background: #5b2eff;
+          border: 4px solid #fcfbff;
+          box-shadow: 10px 10px 0 rgba(91, 46, 255, 0.55);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          will-change: transform;
+        }
+        .\30 4-cta-icon .emoji {
+          font-size: 132px;
+          line-height: 1;
+        }
+
+        .\30 4-cta-name {
+          position: relative;
+          z-index: 1;
+          margin: 64px 0 0;
+          color: #fcfbff;
+          font-weight: 900;
+          font-size: 98px;
+          line-height: 1;
+          letter-spacing: -0.03em;
+          white-space: nowrap;
+          will-change: transform;
+        }
+
+        .\30 4-cta-sub {
+          position: relative;
+          z-index: 1;
+          margin: 30px 0 0;
+          color: #9e96b8;
+          font-weight: 700;
+          font-size: 42px;
+          line-height: 1.1;
+          letter-spacing: -0.01em;
+        }
+
+        .\30 4-cta-ctawrap {
+          position: relative;
+          z-index: 1;
+          margin: 108px 0 0;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .\30 4-cta-burst {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          border-radius: 0;
+          background: radial-gradient(
+            circle,
+            rgba(91, 46, 255, 0.9) 0%,
+            rgba(91, 46, 255, 0) 70%
+          );
+          filter: blur(44px);
+          opacity: 0;
+          pointer-events: none;
+        }
+        .\30 4-cta-btn {
+          position: relative;
+          z-index: 2;
+          background: #5b2eff;
+          color: #fcfbff;
+          border: 4px solid #0f0b18;
+          border-radius: 0;
+          box-shadow: 9px 9px 0 #fcfbff;
+          padding: 42px 58px;
+          font-family: "Pretendard", sans-serif;
+          font-weight: 800;
+          font-size: 56px;
+          line-height: 1;
+          letter-spacing: -0.01em;
+          white-space: nowrap;
+          transform-origin: 50% 50%;
+          will-change: transform;
+        }
+
+        .\30 4-cta-play {
+          position: relative;
+          z-index: 1;
+          margin: 44px 0 0;
+          color: #8a83a0;
+          font-weight: 700;
+          font-size: 36px;
+          letter-spacing: 0.02em;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="04-cta"
+        data-start="0"
+        data-width="1080"
+        data-height="1920"
+        data-duration="2.8"
+      >
+        <div
+          class="04-cta-ground clip"
+          data-start="0"
+          data-duration="2.8"
+          data-track-index="0"
+        >
+          <div class="04-cta-dots" aria-hidden="true"></div>
+
+          <div id="04-cta-icon" class="04-cta-icon">
+            <span class="emoji" aria-hidden="true">🎤</span>
+          </div>
+
+          <div id="04-cta-name" class="04-cta-name">노래방 번호검색</div>
+
+          <div id="04-cta-sub" class="04-cta-sub">곡명만 치면, 번호 끝.</div>
+
+          <div id="04-cta-ctawrap" class="04-cta-ctawrap">
+            <div id="04-cta-burst" class="04-cta-burst" aria-hidden="true"></div>
+            <div id="04-cta-btn" class="04-cta-btn">지금 무료 다운로드</div>
+          </div>
+
+          <div id="04-cta-play" class="04-cta-play">▶ Google Play</div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          var el = function (id) {
+            return document.getElementById(id);
+          };
+          window.__timelines = window.__timelines || {};
+          var tl = gsap.timeline({ paused: true });
+
+          // Scene 1 (0–0.9s) — app icon spring-pops in, app name slams in.
+          tl.fromTo(
+            el("04-cta-icon"),
+            { scale: 0.3, opacity: 0, y: 30 },
+            { scale: 1, opacity: 1, y: 0, duration: 0.55, ease: "back.out(1.9)" },
+            0.05,
+          );
+          tl.fromTo(
+            el("04-cta-name"),
+            { y: 72, scale: 0.9, opacity: 0 },
+            { y: 0, scale: 1, opacity: 1, duration: 0.42, ease: "power4.out" },
+            0.5,
+          );
+
+          // Scene 2 (0.9–1.8s) — sub-line fades up.
+          tl.fromTo(
+            el("04-cta-sub"),
+            { y: 34, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+            1.0,
+          );
+
+          // Scene 3 (1.8–2.8s) — CTA lands, then press → spring release (state continuity:
+          // RELEASE_START = PRESS_START + PRESS_DUR = 1.97 + 0.12 = 2.09).
+          tl.fromTo(
+            el("04-cta-btn"),
+            { y: 56, opacity: 0, scale: 0.92 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" },
+            1.75,
+          );
+          tl.to(el("04-cta-btn"), { scale: 0.9, duration: 0.12, ease: "power1.in" }, 1.97);
+          tl.to(el("04-cta-btn"), { scale: 1, duration: 0.42, ease: "back.out(2.0)" }, 2.09);
+
+          // Release burst behind the button, then it fades out by the end.
+          tl.fromTo(
+            el("04-cta-burst"),
+            { scale: 1, opacity: 0 },
+            { scale: 3.6, opacity: 0.45, duration: 0.42, ease: "power2.out" },
+            2.09,
+          );
+          tl.to(el("04-cta-burst"), { opacity: 0, duration: 0.34, ease: "power2.in" }, 2.46);
+
+          // Small store label settles in under the button, then a stable hold for the poster.
+          tl.fromTo(
+            el("04-cta-play"),
+            { y: 22, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
+            2.28,
+          );
+
+          window.__timelines["04-cta"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

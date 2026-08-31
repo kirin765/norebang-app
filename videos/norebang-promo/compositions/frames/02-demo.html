@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- head is metadata for the source file only; the runtime ignores it -->
+  </head>
+  <body>
+    <template>
+      <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+      <style>
+        @font-face {
+          font-family: "Pretendard";
+          src: url("assets/fonts/Pretendard-Medium.woff2") format("woff2");
+          font-weight: 500;
+          font-style: normal;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Pretendard";
+          src: url("assets/fonts/Pretendard-Bold.woff2") format("woff2");
+          font-weight: 700;
+          font-style: normal;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Pretendard";
+          src: url("assets/fonts/Pretendard-ExtraBold.woff2") format("woff2");
+          font-weight: 800;
+          font-style: normal;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Pretendard";
+          src: url("assets/fonts/Pretendard-Black.woff2") format("woff2");
+          font-weight: 900;
+          font-style: normal;
+          font-display: block;
+        }
+
+        /* NOTE: class/id values are prefixed "02-demo-" (valid HTML). Because a CSS
+           identifier may not begin with a digit, selectors use the [class~=] /
+           [id=] attribute form, and the JS drives elements by reference (getElementById)
+           rather than digit-leading selector strings. */
+
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Pretendard", sans-serif;
+          color: #1a1526;
+        }
+
+        /* ---- ground ---- */
+        [class~="02-demo-ground"] {
+          position: absolute;
+          inset: 0;
+          background: #fcfbff;
+        }
+        [class~="02-demo-dots"] {
+          position: absolute;
+          width: 460px;
+          height: 460px;
+          background-image: radial-gradient(
+            circle,
+            rgba(26, 21, 38, 0.06) 1.5px,
+            transparent 1.6px
+          );
+          background-size: 27px 27px;
+        }
+        [class~="02-demo-dots"].tl {
+          top: 40px;
+          left: 40px;
+          -webkit-mask-image: radial-gradient(circle at 0 0, #000 40%, transparent 78%);
+          mask-image: radial-gradient(circle at 0 0, #000 40%, transparent 78%);
+        }
+        [class~="02-demo-dots"].br {
+          right: 40px;
+          bottom: 380px;
+          -webkit-mask-image: radial-gradient(circle at 100% 100%, #000 40%, transparent 78%);
+          mask-image: radial-gradient(circle at 100% 100%, #000 40%, transparent 78%);
+        }
+
+        /* ---- stage ---- */
+        [class~="02-demo-stage"] {
+          position: absolute;
+          inset: 0;
+        }
+
+        /* ---- phone ---- */
+        [class~="02-demo-phone"] {
+          position: absolute;
+          left: 210px;
+          top: 118px;
+          width: 660px;
+          height: 1250px;
+          background: #1a1526;
+          border: 6px solid #1a1526;
+          border-radius: 46px;
+          box-shadow: 14px 14px 0 #1a1526;
+          padding: 22px;
+          box-sizing: border-box;
+          transform-origin: 50% 100%;
+          will-change: transform;
+        }
+        [class~="02-demo-screen"] {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          background: #fcfbff;
+          border-radius: 26px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          padding: 30px 28px;
+          box-sizing: border-box;
+        }
+
+        [class~="02-demo-header"] {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 35px;
+          font-weight: 800;
+          letter-spacing: -0.01em;
+          color: #1a1526;
+        }
+
+        /* ---- search bar ---- */
+        [class~="02-demo-search"] {
+          margin-top: 22px;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          height: 80px;
+          padding: 0 22px;
+          background: #ffffff;
+          border: 3px solid #1a1526;
+          border-radius: 18px;
+          box-shadow: 4px 4px 0 #1a1526;
+          box-sizing: border-box;
+        }
+        [class~="02-demo-glyph"] {
+          font-size: 30px;
+          line-height: 1;
+        }
+        [class~="02-demo-search-text"] {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          font-size: 31px;
+          font-weight: 700;
+          white-space: nowrap;
+          flex: 1;
+          min-width: 0;
+        }
+        [class~="02-demo-placeholder"] {
+          position: absolute;
+          left: 0;
+          color: #8a83a0;
+          font-weight: 500;
+        }
+        [class~="02-demo-typed"] {
+          color: #1a1526;
+        }
+        [class~="02-demo-caret"] {
+          display: inline-block;
+          width: 3px;
+          height: 36px;
+          margin-left: 3px;
+          background: #5b2eff;
+          vertical-align: middle;
+        }
+
+        /* ---- filter chips ---- */
+        [class~="02-demo-chips"] {
+          margin-top: 20px;
+          display: flex;
+          gap: 12px;
+        }
+        [class~="02-demo-chip"] {
+          height: 56px;
+          padding: 0 26px;
+          display: inline-flex;
+          align-items: center;
+          font-size: 26px;
+          font-weight: 700;
+          border: 3px solid #1a1526;
+          border-radius: 28px;
+          background: #ffffff;
+          color: #1a1526;
+          box-shadow: 3px 3px 0 #1a1526;
+        }
+        [class~="02-demo-chip"].sel {
+          background: #5b2eff;
+          color: #fcfbff;
+        }
+
+        /* ---- results ---- */
+        [class~="02-demo-results"] {
+          margin-top: 26px;
+          display: flex;
+          flex-direction: column;
+        }
+        [class~="02-demo-row"] {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          padding: 22px 12px;
+          border-radius: 14px;
+          background: transparent;
+          transform-origin: 50% 50%;
+          will-change: transform;
+        }
+        [class~="02-demo-divider"] {
+          height: 2px;
+          background: rgba(26, 21, 38, 0.08);
+          margin: 0 6px;
+        }
+        [class~="02-demo-badge"] {
+          flex-shrink: 0;
+          padding: 12px 16px;
+          border-radius: 12px;
+          font-size: 25px;
+          font-weight: 800;
+          letter-spacing: 0.3px;
+          white-space: nowrap;
+        }
+        [class~="02-demo-badge"].tj {
+          background: rgba(46, 125, 255, 0.12);
+          color: #2e7dff;
+        }
+        [class~="02-demo-badge"].ky {
+          background: rgba(229, 72, 77, 0.12);
+          color: #e5484d;
+        }
+        [class~="02-demo-meta"] {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        [class~="02-demo-title"] {
+          font-size: 32px;
+          font-weight: 800;
+          color: #1a1526;
+          letter-spacing: -0.01em;
+        }
+        [class~="02-demo-artist"] {
+          font-size: 24px;
+          font-weight: 500;
+          color: #8a83a0;
+        }
+        [class~="02-demo-heart"] {
+          position: relative;
+          width: 46px;
+          height: 46px;
+          flex-shrink: 0;
+        }
+        [class~="02-demo-heart"] svg {
+          position: absolute;
+          inset: 0;
+          width: 46px;
+          height: 46px;
+        }
+        [class~="02-demo-heart"] .fill {
+          transform-origin: 50% 50%;
+          will-change: transform;
+        }
+
+        /* ---- bottom nav ---- */
+        [class~="02-demo-nav"] {
+          margin-top: auto;
+          display: flex;
+          border-top: 3px solid rgba(26, 21, 38, 0.1);
+          padding-top: 16px;
+        }
+        [class~="02-demo-navitem"] {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 6px;
+          font-size: 23px;
+          font-weight: 700;
+          color: #8a83a0;
+        }
+        [class~="02-demo-navitem"] .ico {
+          font-size: 30px;
+          line-height: 1;
+        }
+        [class~="02-demo-navitem"].on {
+          color: #5b2eff;
+        }
+
+        /* ---- label pill ---- */
+        [class~="02-demo-pill"] {
+          position: absolute;
+          left: 66px;
+          top: 150px;
+          padding: 16px 26px;
+          background: #5b2eff;
+          color: #fcfbff;
+          font-size: 30px;
+          font-weight: 800;
+          letter-spacing: -0.01em;
+          border: 4px solid #1a1526;
+          border-radius: 9999px;
+          box-shadow: 6px 6px 0 #1a1526;
+          transform-origin: 50% 50%;
+          will-change: transform;
+        }
+
+        /* ---- tap star burst ---- */
+        [class~="02-demo-star"] {
+          position: absolute;
+          left: 806px;
+          top: 392px;
+          width: 168px;
+          height: 168px;
+          transform-origin: 50% 50%;
+          will-change: transform;
+        }
+        [class~="02-demo-starshape"] {
+          position: absolute;
+          inset: 0;
+          clip-path: polygon(
+            50% 0%,
+            60% 22%,
+            85% 15%,
+            78% 40%,
+            100% 50%,
+            78% 60%,
+            85% 85%,
+            60% 78%,
+            50% 100%,
+            40% 78%,
+            15% 85%,
+            22% 60%,
+            0% 50%,
+            22% 40%,
+            15% 15%,
+            40% 22%
+          );
+        }
+        [class~="02-demo-starshape"].back {
+          background: #1a1526;
+          transform: scale(1.06);
+          transform-origin: 50% 50%;
+        }
+        [class~="02-demo-starshape"].front {
+          background: #5b2eff;
+        }
+        [class~="02-demo-starlabel"] {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 36px;
+          font-weight: 900;
+          color: #fcfbff;
+          letter-spacing: -0.02em;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="02-demo"
+        data-start="0"
+        data-width="1080"
+        data-height="1920"
+        data-duration="4.7"
+      >
+        <!-- full-bleed ground (background layer) -->
+        <div
+          class="clip 02-demo-ground"
+          id="02-demo-ground"
+          data-start="0"
+          data-duration="4.7"
+          data-track-index="0"
+        >
+          <div class="02-demo-dots tl"></div>
+          <div class="02-demo-dots br"></div>
+        </div>
+
+        <!-- timed content layer -->
+        <div
+          class="clip 02-demo-stage"
+          id="02-demo-stage"
+          data-start="0"
+          data-duration="4.7"
+          data-track-index="1"
+        >
+          <!-- phone hero -->
+          <div class="02-demo-phone" id="02-demo-phone">
+            <div class="02-demo-screen">
+              <div class="02-demo-header">🎤 노래방 번호검색</div>
+
+              <div class="02-demo-search">
+                <span class="02-demo-glyph">🔍</span>
+                <span class="02-demo-search-text">
+                  <span class="02-demo-placeholder" id="02-demo-placeholder"
+                    >곡명 또는 가수명 검색</span
+                  >
+                  <span class="02-demo-typed" id="02-demo-typed"></span>
+                  <span class="02-demo-caret" id="02-demo-caret"></span>
+                </span>
+              </div>
+
+              <div class="02-demo-chips">
+                <span class="02-demo-chip">전체</span>
+                <span class="02-demo-chip sel">TJ</span>
+                <span class="02-demo-chip">금영</span>
+              </div>
+
+              <div class="02-demo-results">
+                <div class="02-demo-row" id="02-demo-row0">
+                  <span class="02-demo-badge tj">TJ 47590</span>
+                  <span class="02-demo-meta">
+                    <span class="02-demo-title">좋은 날</span>
+                    <span class="02-demo-artist">아이유</span>
+                  </span>
+                  <span class="02-demo-heart">
+                    <svg id="02-demo-heart-line" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 20.5S3.5 15.2 3.5 8.9C3.5 6.1 5.6 4.2 8 4.2c1.7 0 3 .9 4 2.4 1-1.5 2.3-2.4 4-2.4 2.4 0 4.5 1.9 4.5 4.7 0 6.3-8.5 11.6-8.5 11.6z"
+                        stroke="#8a83a0"
+                        stroke-width="1.8"
+                      />
+                    </svg>
+                    <svg class="fill" id="02-demo-heart-fill" viewBox="0 0 24 24">
+                      <path
+                        d="M12 20.5S3.5 15.2 3.5 8.9C3.5 6.1 5.6 4.2 8 4.2c1.7 0 3 .9 4 2.4 1-1.5 2.3-2.4 4-2.4 2.4 0 4.5 1.9 4.5 4.7 0 6.3-8.5 11.6-8.5 11.6z"
+                        fill="#e5484d"
+                      />
+                    </svg>
+                  </span>
+                </div>
+                <div class="02-demo-divider"></div>
+
+                <div class="02-demo-row" id="02-demo-row1">
+                  <span class="02-demo-badge ky">금영 43897</span>
+                  <span class="02-demo-meta">
+                    <span class="02-demo-title">밤편지</span>
+                    <span class="02-demo-artist">아이유</span>
+                  </span>
+                  <span class="02-demo-heart">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 20.5S3.5 15.2 3.5 8.9C3.5 6.1 5.6 4.2 8 4.2c1.7 0 3 .9 4 2.4 1-1.5 2.3-2.4 4-2.4 2.4 0 4.5 1.9 4.5 4.7 0 6.3-8.5 11.6-8.5 11.6z"
+                        stroke="#8a83a0"
+                        stroke-width="1.8"
+                      />
+                    </svg>
+                  </span>
+                </div>
+                <div class="02-demo-divider"></div>
+
+                <div class="02-demo-row" id="02-demo-row2">
+                  <span class="02-demo-badge tj">TJ 62145</span>
+                  <span class="02-demo-meta">
+                    <span class="02-demo-title">내 손을 잡아</span>
+                    <span class="02-demo-artist">아이유</span>
+                  </span>
+                  <span class="02-demo-heart">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 20.5S3.5 15.2 3.5 8.9C3.5 6.1 5.6 4.2 8 4.2c1.7 0 3 .9 4 2.4 1-1.5 2.3-2.4 4-2.4 2.4 0 4.5 1.9 4.5 4.7 0 6.3-8.5 11.6-8.5 11.6z"
+                        stroke="#8a83a0"
+                        stroke-width="1.8"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <div class="02-demo-nav">
+                <div class="02-demo-navitem on"><span class="ico">🔍</span>검색</div>
+                <div class="02-demo-navitem"><span class="ico">❤️</span>즐겨찾기</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- label pill -->
+          <div class="02-demo-pill" id="02-demo-pill">3초면 끝</div>
+
+          <!-- tap star burst -->
+          <div class="02-demo-star" id="02-demo-star">
+            <div class="02-demo-starshape back"></div>
+            <div class="02-demo-starshape front"></div>
+            <span class="02-demo-starlabel">탭!</span>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        const TOTAL = 4.2;
+
+        const byId = (id) => document.getElementById(id);
+        const phone = byId("02-demo-phone");
+        const pill = byId("02-demo-pill");
+        const star = byId("02-demo-star");
+        const heartFill = byId("02-demo-heart-fill");
+        const heartLine = byId("02-demo-heart-line");
+        const row0 = byId("02-demo-row0");
+        const rows = [row0, byId("02-demo-row1"), byId("02-demo-row2")];
+        const typedEl = byId("02-demo-typed");
+        const placeholderEl = byId("02-demo-placeholder");
+        const caretEl = byId("02-demo-caret");
+
+        // ---- deferred elements: hide at t=0 ----
+        tl.set(pill, { scale: 0, opacity: 0, rotation: 6 }, 0);
+        tl.set(star, { scale: 0, opacity: 0, rotation: 10 }, 0);
+        tl.set(heartFill, { scale: 0, opacity: 0 }, 0);
+        tl.set(rows, { opacity: 0, y: 32, scale: 0.96 }, 0);
+
+        // ---- Scene 1: phone springs up from below, settles to +1.5deg ----
+        tl.fromTo(
+          phone,
+          { y: 380, scale: 0.9, opacity: 0, rotation: 0 },
+          { y: 0, scale: 1, opacity: 1, rotation: 1.5, duration: 0.72, ease: "back.out(1.3)" },
+          0,
+        );
+
+        // ---- Scene 2: typing "아이유" (discrete-text-sequence) ----
+        const SEQUENCE = [
+          { t: 0.0, text: "" },
+          { t: 0.9, text: "아" },
+          { t: 1.2, text: "아이" },
+          { t: 1.55, text: "아이유" },
+        ];
+        function textAt(time) {
+          for (let i = SEQUENCE.length - 1; i >= 0; i--) {
+            if (time >= SEQUENCE[i].t) return SEQUENCE[i].text;
+          }
+          return "";
+        }
+        const driver = { t: 0 };
+        tl.to(
+          driver,
+          {
+            t: TOTAL,
+            duration: TOTAL,
+            ease: "none",
+            onUpdate: () => {
+              const txt = textAt(driver.t);
+              typedEl.textContent = txt;
+              placeholderEl.style.opacity = txt.length ? "0" : "1";
+            },
+          },
+          0,
+        );
+
+        // caret blink — deterministic sin (~6 cycles across the composition)
+        const blink = { p: 0 };
+        tl.to(
+          blink,
+          {
+            p: Math.PI * 2 * 6,
+            duration: TOTAL,
+            ease: "none",
+            onUpdate: () => {
+              caretEl.style.opacity = Math.sin(blink.p) > 0 ? "1" : "0";
+            },
+          },
+          0,
+        );
+
+        // label-pill "3초면 끝" pops top-left near the phone
+        tl.fromTo(
+          pill,
+          { scale: 0, opacity: 0, rotation: 6 },
+          { scale: 1, opacity: 1, rotation: -3, duration: 0.5, ease: "back.out(1.6)" },
+          1.0,
+        );
+
+        // ---- Scene 3: result rows cascade top -> bottom ----
+        rows.forEach((el, i) => {
+          tl.fromTo(
+            el,
+            { opacity: 0, y: 32, scale: 0.96 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.52, ease: "power3.out" },
+            1.85 + i * 0.28,
+          );
+        });
+
+        // ---- Scene 4: first row heart gray -> filled red (press-pop) + highlight + star ----
+        tl.to(heartLine, { opacity: 0, duration: 0.22, ease: "power1.in" }, 3.35);
+        tl.fromTo(
+          heartFill,
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.44, ease: "back.out(2.4)" },
+          3.35,
+        );
+        tl.to(
+          row0,
+          { backgroundColor: "rgba(229,72,77,0.09)", duration: 0.4, ease: "power2.out" },
+          3.3,
+        );
+
+        // tap star burst beside the phone
+        tl.fromTo(
+          star,
+          { scale: 0, opacity: 0, rotation: 10 },
+          { scale: 1, opacity: 1, rotation: -8, duration: 0.5, ease: "back.out(1.7)" },
+          3.5,
+        );
+
+        window.__timelines["02-demo"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,200 @@
+:root {
+  --primary: #5b2eff;
+  --surface: #fcfbff;
+  --tj: #2e7dff;
+  --ky: #e5484d;
+  --text: #1a1a1f;
+  --muted: #8a8a93;
+  --divider: #f0eef5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard',
+    'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  overscroll-behavior: none;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+
+/* ---- 검색 영역 ---- */
+.search-area {
+  padding: 12px 16px 8px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 1px solid #e5e1ee;
+  border-radius: 14px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+  color: var(--text);
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+}
+
+.search-input::placeholder {
+  color: var(--muted);
+}
+
+.chip-row {
+  display: flex;
+  gap: 8px;
+  padding: 8px 0 4px;
+}
+
+.brand-chip {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 1px solid #e5e1ee;
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.brand-chip.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+/* ---- 목록 ---- */
+.song-list {
+  list-style: none;
+  padding: 0 16px;
+}
+
+.song-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--divider);
+}
+
+.brand-badge {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.song-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.song-title {
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-artist {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fav-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
+}
+
+/* ---- 빈 상태 ---- */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  text-align: center;
+  gap: 6px;
+}
+
+.empty-emoji {
+  font-size: 44px;
+}
+
+.empty-text {
+  color: #666;
+  line-height: 1.5;
+}
+
+.db-info {
+  color: #c9c9d0;
+  font-size: 12px;
+}
+
+/* ---- 하단 내비 ---- */
+.bottom-nav {
+  display: flex;
+  border-top: 1px solid var(--divider);
+  background: #fff;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 0 10px;
+  background: none;
+  border: none;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.nav-item.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 18px;
+  line-height: 1;
+}
