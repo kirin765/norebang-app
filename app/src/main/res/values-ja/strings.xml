@@ -9,6 +9,7 @@
     <string name="filter_all">すべて</string>
     <string name="brand_ky">KY</string>
     <string name="search_empty">歌いたい曲を検索してください</string>
+    <string name="search_no_results">検索結果がありません</string>
     <string name="db_info">曲DB %1$s · %2$s曲</string>
     <string name="favorites_empty">検索結果のハートをタップして\nよく歌う曲を保存しましょう</string>
 </resources>

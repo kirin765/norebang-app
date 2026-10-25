@@ -139,6 +139,19 @@ fun SearchScreen(state: UiState, vm: SearchViewModel) {
                     color = Color.LightGray, fontSize = 12.sp,
                 )
             }
+        } else if (state.results.isEmpty()) {
+            // 검색 중에는 이전 화면을 유지하고, 끝났는데 결과가 없을 때만 안내한다.
+            if (!state.searching) {
+                Column(
+                    Modifier.fillMaxSize().padding(bottom = 80.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text("🔍", fontSize = 40.sp)
+                    Spacer(Modifier.padding(4.dp))
+                    Text(stringResource(R.string.search_no_results), color = Color.Gray)
+                }
+            }
         } else {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(state.results, key = { "${it.brand}:${it.number}" }) { song ->

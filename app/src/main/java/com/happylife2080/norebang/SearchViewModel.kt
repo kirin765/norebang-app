@@ -23,7 +23,7 @@ data class UiState(
     val favoriteKeys: Set<String> = emptySet(),
     val dbVersion: String = "",
     val songCount: Int = 0,
-    val updating: Boolean = false,
+    val searching: Boolean = false,
 )
 
 class SearchViewModel(app: Application) : AndroidViewModel(app) {
@@ -56,20 +56,28 @@ class SearchViewModel(app: Application) : AndroidViewModel(app) {
         queryFlow.debounce(120).collect { q ->
             val brand = _state.value.brandFilter
             val results = withContext(Dispatchers.IO) { catalog.search(q, brand) }
-            _state.value = _state.value.copy(results = results)
+            // 타이핑이 더 진행됐으면 이 결과는 버린다(늦게 도착한 이전 쿼리).
+            val current = _state.value
+            if (current.query == q && current.brandFilter == brand) {
+                _state.value = current.copy(results = results, searching = false)
+            }
         }
     }
 
     fun onQueryChange(q: String) {
-        _state.value = _state.value.copy(query = q)
+        _state.value = _state.value.copy(query = q, searching = q.isNotBlank())
         queryFlow.value = q
     }
 
     fun onBrandFilter(brand: String?) {
-        _state.value = _state.value.copy(brandFilter = brand)
+        _state.value = _state.value.copy(brandFilter = brand, searching = true)
         viewModelScope.launch(Dispatchers.IO) {
-            val results = catalog.search(_state.value.query, brand)
-            _state.value = _state.value.copy(results = results)
+            val q = _state.value.query
+            val results = catalog.search(q, brand)
+            val current = _state.value
+            if (current.brandFilter == brand && current.query == q) {
+                _state.value = current.copy(results = results, searching = false)
+            }
         }
     }
 

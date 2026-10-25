@@ -9,6 +9,7 @@
     <string name="filter_all">전체</string>
     <string name="brand_ky">금영</string>
     <string name="search_empty">부르고 싶은 곡을 검색하세요</string>
+    <string name="search_no_results">검색 결과가 없습니다</string>
     <string name="db_info">곡 DB %1$s · %2$s곡</string>
     <string name="favorites_empty">검색 결과에서 하트를 눌러\n자주 부르는 곡을 저장하세요</string>
 </resources>

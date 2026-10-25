@@ -6,10 +6,13 @@
 //   브라우저가 자동 해제하여 이중 압축해제 문제가 생기므로 raw로 고정한다.
 import { DatabaseSync } from 'node:sqlite'
 import { writeFileSync, mkdirSync, statSync } from 'node:fs'
+import { buildArtistAliasGroups, renderAliasTsv } from './artist-aliases.mjs'
 
 const SRC_DB = process.env.SONGS_DB || 'app/src/main/assets/songs.db'
 const OUT_DIR = 'public'
 const OUT_JSON = `${OUT_DIR}/songs.json`
+const ASSET_ALIASES = 'app/src/main/assets/artist_aliases.tsv'
+const PUBLIC_ALIASES = `${OUT_DIR}/artist_aliases.tsv`
 
 const db = new DatabaseSync(SRC_DB, { readOnly: true })
 
@@ -29,6 +32,17 @@ writeFileSync(OUT_JSON, json)
 
 console.log(`catalog written: version=${version} count=${count}`)
 console.log(`raw  : ${(json.length / 1024 / 1024).toFixed(2)} MB -> public/songs.json`)
+
+// TJ ↔ 금영 아티스트 표기 통합(예: TJ "IU" ↔ 금영 "아이유(IU)").
+// 네이티브 assets과 웹 public 양쪽에 같은 TSV를 쓴다.
+const aliasRows = db
+  .prepare('SELECT brand, norm_title, norm_artist FROM songs')
+  .all()
+const aliasGroups = buildArtistAliasGroups(aliasRows)
+const aliasTsv = renderAliasTsv(aliasGroups)
+writeFileSync(ASSET_ALIASES, aliasTsv)
+writeFileSync(PUBLIC_ALIASES, aliasTsv)
+console.log(`artist aliases: ${aliasGroups.length} groups -> ${ASSET_ALIASES}, ${PUBLIC_ALIASES}`)
 
 const srcSize = statSync(SRC_DB).size
 console.log(`source songs.db: ${(srcSize / 1024 / 1024).toFixed(2)} MB`)

@@ -22,19 +22,21 @@ class UpdateManager(private val context: Context, private val catalog: CatalogDb
             if (!UpdatePolicy.isNewer(remoteVersion, catalog.version())) return@withContext false
 
             val tmp = File(context.cacheDir, "catalog-new.db")
-            URL(dbUrl).openConnection().let { conn ->
-                (conn as HttpURLConnection).connectTimeout = 15000
-                conn.readTimeout = 60000
-                GZIPInputStream(conn.inputStream).use { input ->
-                    tmp.outputStream().use { input.copyTo(it) }
+            try {
+                URL(dbUrl).openConnection().let { conn ->
+                    (conn as HttpURLConnection).connectTimeout = 15000
+                    conn.readTimeout = 60000
+                    GZIPInputStream(conn.inputStream).use { input ->
+                        tmp.outputStream().use { input.copyTo(it) }
+                    }
                 }
-            }
-            if (!CatalogDb.isValidCatalog(tmp)) {
+                if (!CatalogDb.isValidCatalog(tmp)) return@withContext false
+                catalog.replaceWith(tmp)
+                true
+            } finally {
+                // 성공 시 replaceWith가 지우지만, 실패·중단 시 남은 임시 파일도 정리한다.
                 tmp.delete()
-                return@withContext false
             }
-            catalog.replaceWith(tmp)
-            true
         } catch (_: Exception) {
             false
         }

@@ -29,7 +29,7 @@ export default defineConfig({
         // 곡 DB(11MB)는 precache에서 제외하고 첫 fetch 시 CacheFirst로 캐시 —
         // SW 설치가 큰 파일 때문에 지연/실패하지 않도록
         maximumFileSizeToCacheInBytes: 2 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,tsv}'],
         runtimeCaching: [
           {
             urlPattern: /songs\.json$/,
