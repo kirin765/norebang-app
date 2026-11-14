@@ -18,6 +18,8 @@ const songs = items.map((it) => ({
   no: Number(it.pro),
   title: String(it.indexTitle ?? '').trim(),
   artist: String(it.indexSong ?? '').trim(),
+  // 곡 등록일 — 증분 작업(ky-backfill.mjs)이 "이번 갱신 이후 신곡"을 고르는 기준
+  date: String(it.publishdate ?? '').slice(0, 10),
 })).filter((s) => s.no > 0 && s.title);
 
 mkdirSync('data', { recursive: true });
