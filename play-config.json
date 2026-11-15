@@ -1,0 +1,10 @@
+{
+  "packageName": "com.happylife2080.norebang",
+  "aab": "/home/giwan/Projects/norebang-app/app/build/outputs/bundle/release/app-release.aab",
+  "track": "production",
+  "releaseNotes": {
+    "ko-KR": "곡 카탈로그를 2026년 11월 기준 131,065곡으로 갱신했습니다. TJ 67,741곡·금영 63,324곡이며, 지난 갱신 이후 등록된 신곡 389곡을 새로 채웠습니다.",
+    "en-US": "Updated the song catalog to 131,065 songs (November 2026): 67,741 TJ and 63,324 Kumyoung entries, adding 389 songs registered since the last update.",
+    "ja-JP": "曲カタログを2026年11月時点の131,065曲に更新しました（TJ 67,741曲・クムヨン 63,324曲）。前回更新以降に登録された新曲389曲を追加しています。"
+  }
+}
